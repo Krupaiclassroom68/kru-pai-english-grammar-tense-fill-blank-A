@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kru Pai — Tense Builder (Fill-in v2 • Pink–Mint)</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&family=Noto+Sans+Thai:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#2f2f3a; --muted:#6b7280;
+  --bg1:#fff6fb; --bg2:#f2fffb;
+  --pink:#ff73b3; --mint:#34d399; --vio:#a78bfa; --gold:#f59e0b;
+  --panel:#ffffff; --ring:#ffd3ea;
+  --ok:#10b981; --bad:#ef4444;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;color:var(--ink);
+  font-family:"Fredoka","Noto Sans Thai",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:
+    radial-gradient(900px 450px at 90% -10%, #ff73b333, transparent 60%),
+    radial-gradient(900px 450px at 10% 110%, #34d39933, transparent 60%),
+    linear-gradient(180deg,var(--bg1),var(--bg2));
+  overflow-x:hidden;
+}
+.sprinkles{position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.18;
+  background-image:radial-gradient(circle at 10% 20%, #ff73b3 0 2px, transparent 3px),
+                    radial-gradient(circle at 90% 30%, #34d399 0 2px, transparent 3px),
+                    radial-gradient(circle at 30% 80%, #f59e0b 0 2px, transparent 3px);
+  background-size:100% 100%;
+}
+.header{position:sticky;top:0;z-index:30;background:#ffffffdd;backdrop-filter:blur(8px);
+  border-bottom:2px solid var(--ring); box-shadow:0 10px 24px #ff73b31f}
+.banner{max-width:1000px;margin:auto;display:flex;align-items:center;gap:12px;padding:10px 14px}
+.logo{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;
+  background:conic-gradient(from var(--spin), var(--pink), var(--mint), var(--vio), var(--pink));
+  color:#fff;font-weight:900;box-shadow:0 6px 24px #ff73b355, inset 0 0 18px #ffffff88;animation:spin 8s linear infinite}
+@keyframes spin{from{--spin:0deg}to{--spin:360deg}}
+.brand{font-weight:900;font-size:clamp(18px,2.6vw,26px);color:#ff2d8a}
+.sub{margin-left:auto;font-size:12px;color:#6b7280}
+.wrap{max-width:1000px;margin:18px auto;padding:0 12px}
+.card{background:var(--panel);border:2px solid var(--ring);border-radius:22px;box-shadow:0 14px 40px #ff73b320, inset 0 0 0 1px #f1f5f9; position:relative; overflow:hidden}
+.ribbon{position:absolute;top:12px;right:-40px;background:linear-gradient(90deg,#ff73b3,#34d399);color:#fff;padding:6px 40px;transform:rotate(15deg);font-weight:900;border-radius:8px}
+.start{padding:20px;display:grid;gap:14px;justify-items:center;text-align:center}
+.bigtitle{font-weight:900;font-size:clamp(24px,4.6vw,44px);color:#ff2d8a;text-shadow:0 2px 0 #fff, 0 0 18px #ff73b355}
+.tagline{font-size:clamp(13px,2.4vw,17px);color:var(--muted)}
+.input{display:flex;gap:10px;align-items:center;background:#fff;padding:10px 12px;border-radius:16px;border:2px solid var(--ring)}
+.input input{border:none;background:transparent;outline:none;font-size:18px;min-width:220px;color:#111;font-weight:700}
+.btn{border:none;cursor:pointer;padding:12px 18px;border-radius:14px;background:linear-gradient(180deg,var(--pink),#ff5aa7);color:#fff;font-weight:900;
+  box-shadow:0 10px 24px #ff73b355;transform:translateY(0);transition:.18s}
+.btn:hover{transform:translateY(-2px)} .btn:active{transform:translateY(0)}
+.btn.alt{background:linear-gradient(180deg,var(--mint),#2cc08c); box-shadow:0 10px 24px #34d39944}
+.btn.ghost{background:#fff;color:#3a3a45;border:2px dashed var(--ring); box-shadow:none}
+.note{font-size:12px;color:var(--muted)}
+.hud{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px dashed var(--ring)}
+.hud .pill{background:#fff7fb;border:2px solid var(--ring);padding:8px 12px;border-radius:999px;font-weight:900;color:#ff2d8a}
+.hud .score{color:#10b981}.hud .step{color:#6366f1}
+.progress{height:10px;background:#fff5fa;border-radius:999px;overflow:hidden;border:2px solid var(--ring)}
+.progress>div{height:100%;background:linear-gradient(90deg,#ff73b3,#34d399);width:0%}
+.stage{padding:16px}
+.qbox{background:linear-gradient(180deg,#ffffff,#fff9fd);border:2px solid var(--ring);border-radius:16px;padding:14px;box-shadow:0 6px 22px #ff73b31a}
+.qtxt{font-size:clamp(16px,2.8vw,22px);font-weight:900;color:#374151;text-align:center}
+.th{margin-top:8px;font-size:clamp(18px,3.2vw,28px);font-weight:900;color:#111827;text-align:center}
+.sentence{margin-top:12px; text-align:center; line-height:2.2}
+.blank{display:inline-block; min-width:100px; margin:6px; padding:10px 12px; border-radius:14px; border:2px dashed var(--ring); background:#fff; transition:.15s}
+.blank input{border:none; outline:none; width:140px; font-size:20px; text-align:center; font-weight:900; color:#111}
+.blank.correct{background:#eafff7; border-color:#a7f3d0; box-shadow:0 6px 20px #10b98122}
+.blank.wrong{background:#fff1f2; border-color:#fecdd3; box-shadow:0 6px 20px #ef444422}
+.feedback{margin:10px 0;text-align:center;min-height:40px}
+.feedback span{display:inline-block;padding:10px 14px;border-radius:12px;font-weight:900;box-shadow:0 8px 24px rgba(0,0,0,.06)}
+.fb-ok{background:#eafff7;color:#047857;border:2px solid #a7f3d0}
+.fb-no{background:#fff1f2;color:#b4233b;border:2px solid #fecdd3}
+.footer{padding:14px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.footer .btn{min-width:180px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:20px;background:#111827;color:#fff;padding:10px 14px;border-radius:999px;
+  border:2px solid #00000010;font-weight:900;box-shadow:0 12px 24px rgba(0,0,0,.15);opacity:0;pointer-events:none}
+.toast.show{animation:tin .8s ease both}
+@keyframes tin{0%{opacity:0;transform:translate(-50%,10px)}100%{opacity:1;transform:translate(-50%,0)}}
+#fx{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:40}
+.piece{position:absolute;width:10px;height:14px;border-radius:2px;opacity:.95}
+.hide{display:none !important}
+</style>
+</head>
+<body>
+<div class="sprinkles"></div>
+<div id="fx"></div>
+
+<header class="header">
+  <div class="banner">
+    <div class="logo">KP</div>
+    <div class="brand">Kru Pai Classroom</div>
+    <div class="sub">Tense Builder — Fill-in v2</div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="intro" class="card start">
+    <div class="ribbon">New!</div>
+    <div class="bigtitle">Tense Builder — Fill-in-the-Blank</div>
+    <div class="tagline">โหมดพิมพ์เติมคำเอง • โทน <b>ชมพู–มิ้นต์</b> น่ารักชวนเล่น</div>
+    <div class="input"><span>ชื่อเล่น:</span> <input id="nickname" placeholder="พิมพ์ชื่อก่อนเริ่ม"/></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+      <button class="btn alt" onclick="startGame()">เริ่มเกมเลย!</button>
+      <button class="btn ghost" onclick="howTo()">วิธีเล่น</button>
+    </div>
+    <div class="note">รองรับรูปย่อ: I'm / I've / I'll • กด Enter เพื่อเช็คคำตอบได้</div>
+  </section>
+
+  <section id="game" class="card hide">
+    <div class="hud">
+      <div class="pill step">ข้อที่ <b id="step">1</b> / <b id="total">20</b></div>
+      <div class="pill score">คะแนน: <b id="score">0</b></div>
+      <div class="pill">ผู้เล่น: <b id="who">-</b></div>
+    </div>
+    <div class="progress"><div id="bar"></div></div>
+
+    <div class="stage">
+      <div class="qbox">
+        <div class="qtxt">พิมพ์คำที่หายไปให้ถูกต้อง</div>
+        <div id="qth" class="th">—</div>
+        <div id="sentence" class="sentence">—</div>
+        <div id="fb" class="feedback"></div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <button class="btn ghost" onclick="clearBlanks()">ล้างคำตอบ</button>
+      <button class="btn alt" onclick="checkAns()">ตรวจคำตอบ</button>
+      <button class="btn" id="nextBtn" onclick="nextQ()" disabled>ข้อต่อไป ➜</button>
+    </div>
+  </section>
+
+  <section id="summary" class="card hide" style="padding:18px;display:grid;gap:10px;justify-items:center;text-align:center">
+    <div class="bigtitle">จบภารกิจแล้ว! 🎉</div>
+    <div class="tagline">คะแนนของ <b id="who2">-</b> คือ <b id="score2">0</b> / <b id="total2">20</b></div>
+    <div>สุดยอด! รอบหน้าให้เด็กอธิบายเหตุผลสั้น ๆ ว่าทำไมเลือกคำนั้น (now → V‑ing / yesterday → V2 …)</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+      <button class="btn alt" onclick="restart()">กลับหน้าแรก</button>
+      <button class="btn" onclick="startGame()">เล่นอีกครั้ง</button>
+    </div>
+  </section>
+</main>
+
+<div id="toast" class="toast">สุดยอด! เก่งมาก</div>
+
+<script>
+const SND = {
+  ctx: null,
+  beep(f=880,d=0.07,type='sine',vol=0.18){
+    try{
+      if(!this.ctx) this.ctx = new (window.AudioContext||window.webkitAudioContext)();
+      const o=this.ctx.createOscillator(), g=this.ctx.createGain();
+      o.type=type; o.frequency.value=f; o.connect(g); g.connect(this.ctx.destination);
+      const t=this.ctx.currentTime;
+      g.gain.setValueAtTime(0.0001,t);
+      g.gain.exponentialRampToValueAtTime(vol,t+0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001,t+d);
+      o.start(); o.stop(t+d+0.02);
+    }catch(e){}
+  },
+  click(){ this.beep(700,0.05,'triangle',0.12) },
+  correct(){ this.beep(1200,0.08,'triangle',0.22); setTimeout(()=>this.beep(1500,0.06,'triangle',0.18),90) },
+  wrong(){ this.beep(240,0.12,'sawtooth',0.22) }
+};
+
+function burstConfetti(x=innerWidth/2,y=innerHeight/2,n=90){
+  const fx=document.getElementById('fx'); const colors=['#ff73b3','#34d399','#f59e0b','#a78bfa','#fde68a'];
+  for(let i=0;i<n;i++){
+    const d=document.createElement('div'); d.className='piece'; d.style.left=x+'px'; d.style.top=y+'px';
+    d.style.background=colors[Math.floor(Math.random()*colors.length)];
+    d.style.transform=`translate(-50%,-50%) rotate(${Math.random()*360}deg)`; fx.appendChild(d);
+    const ang=Math.random()*Math.PI*2, dist=60+Math.random()*260, tx=Math.cos(ang)*dist, ty=Math.sin(ang)*dist+240, rot=(Math.random()*720-360);
+    d.animate([{transform:`translate(-50%,-50%) rotate(0deg)`,opacity:1},{transform:`translate(${tx}px, ${ty}px) rotate(${rot}deg)`,opacity:0}],{duration:1050+Math.random()*750,easing:"cubic-bezier(.2,.8,.2,1)"}).onfinish=()=>d.remove();
+  }
+}
+
+const DATA=[
+  {th:'ตอนนี้เธอกำลังกินข้าว (Present Continuous)', parts:['She ', {blank:['is']}, ' ', {blank:['eating']}, ' rice ', {blank:['now']}, '.']},
+  {th:'พวกเราไม่ได้ดูทีวีตอนนี้ (Present Continuous Neg.)', parts:['We ', {blank:['are']}, ' ', {blank:['not',"n't"]}, ' ', {blank:['watching']}, ' TV now.']},
+  {th:'เขาทำการบ้านเสร็จแล้ว (Present Perfect)', parts:['He ', {blank:['has']}, ' ', {blank:['finished']}, ' his homework ', {blank:['already']}, '.']},
+  {th:'ฉันจะช่วยคุณหลังเลิกเรียน (Future Simple)', parts:['I ', {blank:['will',"\'ll","’ll"]}, ' ', {blank:['help']}, ' you after class.']},
+  {th:'เมื่อวานพวกเราไปโรงเรียน (Past Simple)', parts:['We ', {blank:['went']}, ' to school ', {blank:['yesterday']}, '.']},
+  {th:'เธอมักจะตื่นตอนหกโมง (Present Simple)', parts:['She ', {blank:['usually']}, ' ', {blank:['wakes']}, ' up at six.']},
+  {th:'แมววิ่งไล่จับหนู (Present Simple)', parts:['Cats ', {blank:['chase']}, ' mice.']},
+  {th:'ตอนนี้ฉันไม่ได้ใช้โทรศัพท์ (Present Continuous Neg.)', parts:['I ', {blank:['am']}, ' ', {blank:['not',"n't"]}, ' ', {blank:['using']}, ' my phone now.']},
+  {th:'เรายังไม่ได้กินข้าวเย็น (Present Perfect Neg.)', parts:['We ', {blank:['have']}, ' ', {blank:['not',"n't"]}, ' ', {blank:['had']}, ' dinner ', {blank:['yet']}, '.']},
+  {th:'พวกเขาจะไปสวนสาธารณะสุดสัปดาห์นี้ (Future Simple)', parts:['They ', {blank:['will',"\'ll","’ll"]}, ' ', {blank:['go']}, ' to the park this weekend.']},
+  {th:'ครูกำลังกำสอนคณิตอยู่ (Present Continuous)', parts:['The teacher ', {blank:['is']}, ' ', {blank:['teaching']}, ' math ', {blank:['now']}, '.']},
+  {th:'เมื่อวานฝนตกหนัก (Past Simple)', parts:['It ', {blank:['rained']}, ' heavily ', {blank:['yesterday']}, '.']},
+  {th:'ฉันจะโทรหาคุณหลังเลิกเรียน (Future Simple)', parts:['I ', {blank:['will',"\'ll","’ll"]}, ' ', {blank:['call']}, ' you after class.']},
+  {th:'เขาเพิ่งล้างจานเสร็จ (Present Perfect)', parts:['He ', {blank:['has']}, ' ', {blank:['just']}, ' ', {blank:['finished']}, ' the dishes.']},
+  {th:'พวกเรากำลังเตรียมตัวสอบวันนี้ (Present Continuous)', parts:['We ', {blank:['are']}, ' ', {blank:['studying']}, ' for the test ', {blank:['today']}, '.']},
+  {th:'นกบินอยู่บนท้องฟ้า (Present Simple)', parts:['Birds ', {blank:['fly']}, ' in the sky.']},
+  {th:'เธอไม่ได้ทำกุญแจหายตอนเช้า (Past Simple Neg.)', parts:['She ', {blank:['did']}, ' ', {blank:['not',"n't"]}, ' ', {blank:['lose']}, ' her key this morning.']},
+  {th:'ฉันไม่ไปโรงเรียนเมื่อวาน (Past Simple Neg.)', parts:['I ', {blank:['did']}, ' ', {blank:['not',"n't"]}, ' ', {blank:['go']}, ' to school yesterday.']},
+  {th:'พ่อขับรถไปทำงานทุกวัน (Present Simple)', parts:['Dad ', {blank:['drives']}, ' to work every day.']},
+  {th:'ตอนนี้เราไม่ได้ดูทีวี (Present Continuous Neg.)', parts:['We ', {blank:['are']}, ' ', {blank:['not',"n't"]}, ' ', {blank:['watching']}, ' TV ', {blank:['now']}, '.']},
+];
+
+let order=[], idx=0, score=0, nickname=""; const TOTAL=DATA.length;
+
+function $(id){return document.getElementById(id)}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function norm(s){ return (s||'').trim().toLowerCase().replace(/\s+/g,' ') }
+
+function howTo(){ alert("วิธีเล่น\\n• พิมพ์คำให้ถูกในช่องว่าง (รับรูปย่อบางแบบ)\\n• กด Enter เพื่อเช็คได้\\n• ปุ่ม 'ล้างคำตอบ' ลบทุกช่องของข้อนั้น") }
+
+function startGame(){
+  nickname=(document.getElementById('nickname').value||"ผู้เล่น").trim();
+  $('who').textContent=nickname; $('who2').textContent=nickname;
+  $('intro').classList.add('hide'); $('summary').classList.add('hide'); $('game').classList.remove('hide');
+  score=0; idx=0; order=shuffle([...Array(DATA.length).keys()]);
+  $('total').textContent=TOTAL; $('total2').textContent=TOTAL;
+  renderQ(); SND.click();
+}
+document.getElementById('nickname').addEventListener('keydown',e=>{ if(e.key==='Enter')startGame() });
+
+function renderQ(){
+  $('nextBtn').disabled=true; $('fb').innerHTML='';
+  $('step').textContent=(idx+1); $('score').textContent=score; $('bar').style.width=(idx/TOTAL*100)+'%';
+  const item=DATA[ order[idx] ];
+  $('qth').textContent=item.th;
+  const cont=$('sentence'); cont.innerHTML='';
+
+  item.parts.forEach(p=>{
+    if(typeof p==='string'){ const span=document.createElement('span'); span.textContent=p; cont.appendChild(span); }
+    else if(p.blank){
+      const holder=document.createElement('span'); holder.className='blank'; holder.dataset.answers=JSON.stringify(p.blank);
+      const inp=document.createElement('input'); inp.placeholder='...'; inp.autocapitalize='off'; inp.autocomplete='off';
+      inp.addEventListener('keydown', ev=>{ if(ev.key==='Enter'){ checkAns(); } else { SND.click(); } });
+      inp.addEventListener('focus', ()=>SND.click());
+      holder.appendChild(inp); cont.appendChild(holder);
+    }
+  });
+  const f = cont.querySelector('input'); if(f) f.focus();
+}
+
+function clearBlanks(){
+  document.querySelectorAll('#sentence .blank input').forEach(inp=>{ inp.value=''; inp.parentElement.classList.remove('correct','wrong') });
+  $('fb').innerHTML=''; SND.click();
+}
+
+function checkAns(){
+  const blanks=[...document.querySelectorAll('#sentence .blank')];
+  let allOK=true; let reveal='';
+  blanks.forEach(b=>{
+    const inp=b.querySelector('input'), answers=JSON.parse(b.dataset.answers||'[]').map(norm), val=norm(inp.value);
+    const ok = answers.includes(val) || answers.some(a=>a.replace(/’/g,"'")===val);
+    b.classList.remove('correct','wrong'); b.classList.add(ok?'correct':'wrong');
+    if(!ok){ allOK=false; reveal+=answers[0]+' '; }
+  });
+  if(allOK){
+    score++; $('score').textContent=score; $('fb').innerHTML='<span class="fb-ok">ถูกต้องจ้า 🎉</span>';
+    const r=document.getElementById('sentence').getBoundingClientRect(); burstConfetti(r.left+r.width/2, r.top, 100);
+    SND.correct(); $('nextBtn').disabled=false;
+  }else{
+    $('fb').innerHTML='<span class="fb-no">ยังไม่ครบ ลองดูอีกนิดนะ 💪<br/><small>เฉลยโดยย่อ: '+reveal.trim()+'</small></span>';
+    SND.wrong(); $('nextBtn').disabled=false;
+  }
+}
+
+function nextQ(){
+  if(idx<TOTAL-1){ idx++; renderQ(); }
+  else{ endGame(); }
+}
+
+function endGame(){
+  $('game').classList.add('hide'); $('summary').classList.remove('hide');
+  $('score2').textContent=score; $('bar').style.width='100%';
+  for(let i=0;i<4;i++) setTimeout(()=>burstConfetti(innerWidth/2, innerHeight*0.2, 140), i*160);
+  SND.correct();
+}
+function restart(){ $('summary').classList.add('hide'); $('intro').classList.remove('hide'); }
+</script>
+</body>
+</html>
